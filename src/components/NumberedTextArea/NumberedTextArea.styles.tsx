@@ -1,5 +1,5 @@
-import styled, { StyledComponent } from "styled-components";
-import { DEFAULT_MAX_LINE_NUMBERS } from "./useLineNumbers";
+import styled from "styled-components";
+import { DEFAULT_LINE_NUMBER_COLS } from "./useLineNumbers";
 
 export const TextArea = styled.textarea`
   margin: 0;
@@ -32,13 +32,11 @@ export const ContentTextArea = styled(TextArea)<{ isError: boolean }>`
 
 export const LineNumbers = styled(TextArea)<{
   height: number;
-  maxChars: number;
+  cols: number;
 }>`
   // The width needs to be a minumum value to give enough space for single digit line numbers, and then expand to fit the remaining line numbers
-  width: ${({ maxChars }: { maxChars: number }) =>
-    `${
-      maxChars < DEFAULT_MAX_LINE_NUMBERS ? DEFAULT_MAX_LINE_NUMBERS : maxChars
-    }em`};
+  width: ${({ cols = DEFAULT_LINE_NUMBER_COLS }: { cols?: number }) =>
+    `${cols < DEFAULT_LINE_NUMBER_COLS ? DEFAULT_LINE_NUMBER_COLS : cols}em`};
   font-family: lucida console, courier new, courier, monospace;
   font-weight: 400;
   color: #c7c9cc;

@@ -1,17 +1,15 @@
-import React from "react";
-import { createLineNumbers, convertLineNumbersToString } from "./utils";
+import React, { useCallback } from "react";
+import { convertLineNumbersToString, createLineNumbersArray } from "./utils";
 import { useScrollSync } from "./useScrollSync";
 import { LineNumberDetails } from "./numberedTextArea.types";
 
 export const DEFAULT_LINE_NUMBER_TEXT_AREA_HEIGHT = 50;
-export const DEFAULT_LINE_NUMBER_COLS = 1;
-export const DEFAULT_MAX_LINE_NUMBERS = 2;
+export const DEFAULT_LINE_NUMBER_COLS = 2;
 
 const initialLineNumberState: LineNumberDetails = {
   value: "1",
   height: DEFAULT_LINE_NUMBER_TEXT_AREA_HEIGHT,
   cols: DEFAULT_LINE_NUMBER_COLS,
-  maxChars: DEFAULT_MAX_LINE_NUMBERS,
 };
 
 export const useLineNumbers = (
@@ -26,27 +24,28 @@ export const useLineNumbers = (
       ...(rows ? { lineNumberHeight: rows } : {}),
     });
 
+  // Synchronize the scrolling of both textareas
   useScrollSync(lineNumberTextArea, contentTextArea);
 
-  const setLineNumberTextAreaProps = (
-    text?: string,
-    scrollHeight: number = DEFAULT_LINE_NUMBER_TEXT_AREA_HEIGHT
-  ) => {
-    const lineNumbers = createLineNumbers(text);
-    const cols =
-      lineNumbers.at(-1)?.toString().length ?? DEFAULT_LINE_NUMBER_COLS;
-    const value = convertLineNumbersToString(lineNumbers);
-    const maxChars =
-      lineNumbers.at(lineNumbers.length - 1)?.toString().length ??
-      DEFAULT_MAX_LINE_NUMBERS;
+  const setLineNumberTextAreaProps = useCallback(
+    (
+      contentTextAreaText?: string,
+      scrollHeight: number = DEFAULT_LINE_NUMBER_TEXT_AREA_HEIGHT
+    ) => {
+      const lineNumbers = createLineNumbersArray(contentTextAreaText);
+      // Calculate the number of columns needed based on the number of digits of the last line number
+      const cols =
+        lineNumbers.at(-1)?.toString().length ?? DEFAULT_LINE_NUMBER_COLS;
+      const value = convertLineNumbersToString(lineNumbers);
 
-    setLineNumberTextAreaPropsState({
-      cols,
-      height: scrollHeight,
-      value,
-      maxChars,
-    });
-  };
+      setLineNumberTextAreaPropsState({
+        cols,
+        height: scrollHeight,
+        value,
+      });
+    },
+    []
+  );
 
   React.useEffect(() => {
     if (contentTextArea?.current) {

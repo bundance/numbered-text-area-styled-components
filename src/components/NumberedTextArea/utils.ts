@@ -1,16 +1,12 @@
-export const createLineNumbers = (text: string = ""): number[] => {
+export const createLineNumbersArray = (text: string = ""): number[] => {
   if (!text) {
     return [1];
   }
-  const textRows: string[] = text.split("\n");
-  const newLineNumbers: number[] = Array.from(Array(textRows.length).keys());
-  // newLineNumbers starts from 0, whereas we want it to start from 1,
-  // so shift the line lineNumbers forward 1
-  newLineNumbers.shift();
-  newLineNumbers.length > 0
-    ? newLineNumbers.push((newLineNumbers?.at(-1) ?? 0) + 1)
-    : newLineNumbers.push(1);
-
+  const lineNumbers: string[] = text.split("\n");
+  const newLineNumbers = Array.from(
+    { length: lineNumbers.length },
+    (_, i) => i + 1
+  );
   return newLineNumbers;
 };
 

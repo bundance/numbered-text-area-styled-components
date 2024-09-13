@@ -1,16 +1,9 @@
-import React from 'react';
-import * as S from './NumberedTextArea.styles';
-import { NumberedTextAreaProps } from './numberedTextArea.types';
-import { useLineNumbers } from './useLineNumbers';
+import React from "react";
+import * as S from "./NumberedTextArea.styles";
+import { NumberedTextAreaProps } from "./numberedTextArea.types";
+import { useLineNumbers } from "./useLineNumbers";
 
 const DEFAULT_TEXTAREA_HEIGHT = 368;
-
-// blobby
-// ToDo:
-// - When you click enter, you get a newline in the context
-// textbox, and then a new line in the line number
-// textbox - there's a delay between the two.Fix this
-// - The baseline height of the content is slightly off
 
 const NumberedTextArea = (props: NumberedTextAreaProps): JSX.Element => {
   const lineNumberTextArea = React.useRef<HTMLTextAreaElement>(null);
@@ -26,7 +19,7 @@ const NumberedTextArea = (props: NumberedTextAreaProps): JSX.Element => {
   );
 
   const handleKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
-    if (['Enter', 'Delete', 'Backspace', 'Undo', 'Redo'].includes(e.key)) {
+    if (["Enter", "Delete", "Backspace", "Undo", "Redo"].includes(e.key)) {
       setLineNumberTextAreaProps(
         props.value,
         contentTextArea?.current?.scrollHeight
@@ -36,7 +29,7 @@ const NumberedTextArea = (props: NumberedTextAreaProps): JSX.Element => {
   };
 
   const handlePaste = (e: any) => {
-    // A paste event has been triggered, but we can't get the updated value 
+    // A paste event has been triggered, but we can't get the updated value
     // in the textarea yet,as it's not available until the onChange event is
     // triggered.
     setIsPasted(true);
@@ -50,7 +43,7 @@ const NumberedTextArea = (props: NumberedTextAreaProps): JSX.Element => {
     }
     if (
       isPasted ||
-      ['historyUndo', 'historyRedo'].includes(e.nativeEvent.inputType)
+      ["historyUndo", "historyRedo"].includes(e.nativeEvent.inputType)
     ) {
       setLineNumberTextAreaProps(
         contentTextArea?.current?.value,
@@ -62,13 +55,13 @@ const NumberedTextArea = (props: NumberedTextAreaProps): JSX.Element => {
   };
 
   return (
-    <S.Wrapper height={props.height || DEFAULT_TEXTAREA_HEIGHT}>
+    <S.Wrapper height={props.height ?? DEFAULT_TEXTAREA_HEIGHT}>
       <S.LineNumbers
         {...lineNumberTextAreaProps}
         ref={lineNumberTextArea}
         wrap="off"
         readOnly
-        data-testid={`${props['data-testid']}-lineNumberTextAreaProps`}
+        data-testid={`${props["data-testid"]}-lineNumberTextAreaProps`}
       />
       <S.ContentTextArea
         {...props}

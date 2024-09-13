@@ -17,5 +17,4 @@ export interface LineNumberDetails {
   value: string;
   height: number;
   cols: number;
-  maxChars: number;
 }
