@@ -1,5 +1,5 @@
 export interface NumberedTextAreaProps {
-  ['data-testid']?: string;
+  ["data-testid"]?: string;
   id?: string;
   name: string;
   height?: number;
@@ -17,4 +17,5 @@ export interface LineNumberDetails {
   value: string;
   height: number;
   cols: number;
+  maxChars: number;
 }

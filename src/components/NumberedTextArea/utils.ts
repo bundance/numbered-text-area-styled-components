@@ -1,10 +1,8 @@
-import { LineNumberDetails } from './numberedTextArea.types';
-
-export const createLineNumbers = (text: string = ''): number[] => {
+export const createLineNumbers = (text: string = ""): number[] => {
   if (!text) {
     return [1];
   }
-  const textRows: string[] = text.split('\n');
+  const textRows: string[] = text.split("\n");
   const newLineNumbers: number[] = Array.from(Array(textRows.length).keys());
   // newLineNumbers starts from 0, whereas we want it to start from 1,
   // so shift the line lineNumbers forward 1
@@ -14,9 +12,9 @@ export const createLineNumbers = (text: string = ''): number[] => {
     : newLineNumbers.push(1);
 
   return newLineNumbers;
-}
+};
 
-export const convertLineNumbersToString = (lineNumbers: number[]): string => 
+export const convertLineNumbersToString = (lineNumbers: number[]): string =>
   lineNumbers
-    .reduce((acc, lineNumberValue) => `${acc}\n${lineNumberValue}`, '')
+    .reduce((acc, lineNumberValue) => `${acc}\n${lineNumberValue}`, "")
     .trim();
